@@ -1,0 +1,120 @@
+{% extends 'calendar_app/base.html' %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto mt-10">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-900">Team Registrations</h2>
+        <a href="{% url 'calendar_app:dashboard' %}" class="text-gray-600 hover:text-primary transition">
+            &larr; Back to Dashboard
+        </a>
+    </div>
+
+    <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+        {% if registrations %}
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Team Name</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Discord ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Members</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Registered</th>
+                        <th class="px-6 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    {% for reg in registrations %}
+                    <tr class="hover:bg-gray-50 transition" id="reg-{{ reg.id }}">
+                        <td class="px-6 py-4">
+                            <input type="text" value="{{ reg.team_name }}"
+                                class="w-full bg-transparent border-0 focus:border-b-2 focus:border-primary outline-none text-gray-900 font-medium"
+                                data-field="team_name" data-id="{{ reg.id }}">
+                        </td>
+                        <td class="px-6 py-4">
+                            <input type="text" value="{{ reg.discord_id }}"
+                                class="w-full bg-transparent border-0 focus:border-b-2 focus:border-primary outline-none text-gray-600"
+                                data-field="discord_id" data-id="{{ reg.id }}">
+                        </td>
+                        <td class="px-6 py-4">
+                            <textarea rows="2"
+                                class="w-full bg-transparent border-0 focus:border-b-2 focus:border-primary outline-none text-gray-600 resize-none"
+                                data-field="members" data-id="{{ reg.id }}">{{ reg.members }}</textarea>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ reg.created_at|date:"M j, Y" }}
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <form method="post" action="{% url 'calendar_app:delete_registration' reg.id %}"
+                                class="inline" onsubmit="return confirm('Delete this registration?');">
+                                {% csrf_token %}
+                                <button type="submit"
+                                    class="text-red-500 hover:text-red-700 text-sm font-medium">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+            <p class="text-sm text-gray-600">
+                Total Registrations: <span class="font-semibold text-gray-900">{{ registrations.count }}</span>
+            </p>
+        </div>
+        {% else %}
+        <div class="px-6 py-12 text-center">
+            <p class="text-gray-400 text-lg">No team registrations yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    // Get CSRF token from cookie
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Auto-save on blur
+    document.querySelectorAll('[data-field]').forEach(input => {
+        input.addEventListener('blur', function () {
+            const regId = this.dataset.id;
+            const field = this.dataset.field;
+            const value = this.value;
+
+            const formData = new FormData();
+            formData.append(field, value);
+
+            fetch(`/registrations/${regId}/edit/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    this.classList.add('border-green-500');
+                    setTimeout(() => this.classList.remove('border-green-500'), 1000);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'calendar_app/base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto mt-10">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-900">Players</h2>
+        <a href="{% url 'calendar_app:dashboard' %}" class="text-gray-600 hover:text-primary transition">
+            &larr; Back to Dashboard
+        </a>
+    </div>
+
+    <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+        {% if players %}
+        <table class="w-full">
+            <thead class="bg-gray-50 border-b border-gray-200">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Username</th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Name
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date
+                        Joined</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for player in players %}
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="font-medium text-gray-900">{{ player.username }}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                        {% if player.first_name or player.last_name %}
+                        {{ player.first_name }} {{ player.last_name }}
+                        {% else %}
+                        <span class="text-gray-400 italic">Not provided</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <a href="mailto:{{ player.email }}" class="text-primary hover:underline">{{ player.email }}</a>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{ player.date_joined|date:"M j, Y" }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+            <p class="text-sm text-gray-600">
+                Total Players: <span class="font-semibold text-gray-900">{{ players.count }}</span>
+            </p>
+        </div>
+        {% else %}
+        <div class="px-6 py-12 text-center">
+            <p class="text-gray-400 text-lg">No players registered yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

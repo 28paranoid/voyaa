@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOYAA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--primary-color)',
+                        surface: '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --primary-color: {
+                    {
+                    branding.primary_color|default: '#c0705a'
+                }
+            }
+
+            ;
+        }
+
+        body {
+            background-color: #f4a691;
+            color: #111827;
+        }
+
+        .text-primary {
+            color: var(--primary-color);
+        }
+
+        .bg-primary {
+            background-color: var(--primary-color);
+        }
+
+        .border-primary {
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-surface border-b border-gray-200 p-4 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-content-between items-center">
+            <div class="flex items-center gap-3">
+                {% if branding and branding.logo %}
+                <img src="{{ branding.logo.url }}" alt="Logo" class="h-8 md:h-10 object-contain">
+                {% endif %}
+
+                <a href="{% url 'calendar_app:dashboard' %}"
+                    class="text-xl font-bold tracking-wider hover:text-primary transition text-gray-900">VOYAA</a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                {% if user.is_authenticated %}
+                <span class="text-sm text-gray-600 hidden md:inline">{{ user.username }} ({{ user.role }})</span>
+
+                {% if branding.registration_open %}
+                <a href="{% url 'calendar_app:register_team' %}"
+                    class="text-gray-600 hover:text-primary transition">Register Team</a>
+                {% endif %}
+
+                {% if user.role == 'admin' or user.is_superuser %}
+                <a href="{% url 'calendar_app:admin_registrations' %}"
+                    class="text-gray-600 hover:text-primary transition">Registrations</a>
+                <a href="{% url 'calendar_app:player_list' %}"
+                    class="text-gray-600 hover:text-primary transition">Players</a>
+                <a href="{% url 'calendar_app:settings' %}"
+                    class="text-gray-600 hover:text-primary transition">Settings</a>
+                {% endif %}
+                <a href="{% url 'calendar_app:logout' %}" class="text-red-500 hover:text-red-600 transition">Logout</a>
+                {% else %}
+                <a href="{% url 'calendar_app:login' %}" class="text-primary hover:underline transition">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto p-4 md:p-8">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-4 text-center text-gray-600 text-sm">
+        &copy; {% now "Y" %} VOYAA
+    </footer>
+
+</body>
+
+</html>
