@@ -41,7 +41,7 @@ SECRET_KEY = 'django-insecure-bhxv4-7li3zh5auvg(x!_ap)hb+z7!a!z4r^)lq8h1srn7(5j@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [' https://voyaa-production.up.railway.app']
+ALLOWED_HOSTS = [' voyaa-production.up.railway.app']
 
 
 # Application definition
