@@ -21,7 +21,9 @@ if CSRF_TRUSTED_ORIGINS_STRING:
     CSRF_TRUSTED_ORIGINS = [url.strip() for url in CSRF_TRUSTED_ORIGINS_STRING.split(',')]
 else:
     # Set a safe default if needed
-    CSRF_TRUSTED_ORIGINS = []
+    CSRF_TRUSTED_ORIGINS = ['voyaa-production.up.railway.app']
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 # Quick-start development settings - unsuitable for production
