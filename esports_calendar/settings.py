@@ -23,7 +23,7 @@ if CSRF_TRUSTED_ORIGINS_STRING:
     CSRF_TRUSTED_ORIGINS = [url.strip() for url in CSRF_TRUSTED_ORIGINS_STRING.split(',')]
 else:
     # Set a safe default if the variable isn't present
-    CSRF_TRUSTED_ORIGINS = ['voyaa-production.up.railway.app']
+    CSRF_TRUSTED_ORIGINS = [' https://voyaa-production.up.railway.app']
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,7 +41,7 @@ SECRET_KEY = 'django-insecure-bhxv4-7li3zh5auvg(x!_ap)hb+z7!a!z4r^)lq8h1srn7(5j@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['voyaa-production.up.railway.app']
+ALLOWED_HOSTS = [' https://voyaa-production.up.railway.app']
 
 
 # Application definition
