@@ -23,7 +23,7 @@ if CSRF_TRUSTED_ORIGINS_STRING:
     CSRF_TRUSTED_ORIGINS = [url.strip() for url in CSRF_TRUSTED_ORIGINS_STRING.split(',')]
 else:
     # Set a safe default if the variable isn't present
-    CSRF_TRUSTED_ORIGINS = [' https://voyaa-production.up.railway.app']
+    CSRF_TRUSTED_ORIGINS = ['https://voyaa-production.up.railway.app']
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
