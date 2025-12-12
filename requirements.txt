@@ -10,6 +10,7 @@ colorama==0.4.6
 Django==5.2.5
 gitdb==4.0.12
 GitPython==3.1.45
+gunicorn==21.2.0
 idna==3.11
 Jinja2==3.1.6
 joblib==1.5.2
