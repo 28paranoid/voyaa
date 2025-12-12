@@ -11,9 +11,17 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+CSRF_TRUSTED_ORIGINS_STRING = os.environ.get('CSRF_TRUSTED_ORIGINS')
+
+if CSRF_TRUSTED_ORIGINS_STRING:
+    CSRF_TRUSTED_ORIGINS = [url.strip() for url in CSRF_TRUSTED_ORIGINS_STRING.split(',')]
+else:
+    # Set a safe default if needed
+    CSRF_TRUSTED_ORIGINS = []
 
 
 # Quick-start development settings - unsuitable for production
