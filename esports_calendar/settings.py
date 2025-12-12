@@ -13,15 +13,21 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# ...
+
+# Read the trusted origins from the environment variable
 CSRF_TRUSTED_ORIGINS_STRING = os.environ.get('CSRF_TRUSTED_ORIGINS')
 
 if CSRF_TRUSTED_ORIGINS_STRING:
+    # Split the string by commas and strip whitespace from each origin
     CSRF_TRUSTED_ORIGINS = [url.strip() for url in CSRF_TRUSTED_ORIGINS_STRING.split(',')]
 else:
-    # Set a safe default if needed
+    # Set a safe default if the variable isn't present
     CSRF_TRUSTED_ORIGINS = ['voyaa-production.up.railway.app']
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
