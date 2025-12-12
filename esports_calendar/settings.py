@@ -41,7 +41,13 @@ SECRET_KEY = 'django-insecure-bhxv4-7li3zh5auvg(x!_ap)hb+z7!a!z4r^)lq8h1srn7(5j@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [' voyaa-production.up.railway.app']
+# 1. Read the environment variable string
+ALLOWED_HOSTS_STRING = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
+
+# 2. Split the string by comma and strip any whitespace from each result
+ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STRING.split(',')
+
+ALLOWED_HOSTS = ['voyaa-production.up.railway.app']
 
 
 # Application definition
