@@ -45,7 +45,7 @@ DEBUG = True
 ALLOWED_HOSTS_STRING = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
 
 # 2. Split the string by comma and strip any whitespace from each result
-ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STRING.split(',')
+ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STRING.split(',')]
 
 ALLOWED_HOSTS = ['voyaa-production.up.railway.app']
 
