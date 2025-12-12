@@ -6,10 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VOYAA</title>
-     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/media/branding/favicon.jpg">
-    <link rel="apple-touch-icon" href="/media/branding/favicon.jpg">
-    
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="/media/branding/logo.jpg">
+    <link rel="apple-touch-icon" href="/media/branding/logo.jpg">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -60,7 +61,8 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2 md:gap-3">
                 {% if branding and branding.logo %}
-                <img src="{{ branding.logo.url }}" alt="Logo" class="h-7 md:h-10 object-contain">
+                <img src="{{ branding.logo.url }}" alt="Logo"
+                    class="h-8 w-8 md:h-10 md:w-10 object-cover">
                 {% endif %}
 
                 <a href="{% url 'calendar_app:dashboard' %}"
